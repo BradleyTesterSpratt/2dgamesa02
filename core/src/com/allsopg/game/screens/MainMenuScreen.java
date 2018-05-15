@@ -1,7 +1,6 @@
 package com.allsopg.game.screens;
 
 import com.allsopg.game.TBWGame;
-import com.allsopg.game.sound.SoundLink;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,18 +15,14 @@ import static com.allsopg.game.utility.Constants.LEVELONE;
 
 public class MainMenuScreen extends ScreenAdapter {
         private TBWGame game;
-        public SoundLink sounds;
         public MainMenuScreen(TBWGame aGame) {
             this.game = aGame;
         }
 
     @Override
     public void show() {
-        //game.getAssetManager().load(BACKGROUND, TiledMap.class);
         game.getAssetManager().load(LEVELONE, TiledMap.class);
         game.getAssetManager().finishLoading();
-        sounds = new SoundLink();
-        sounds.play(5);
     }
 
     @Override
@@ -35,14 +30,17 @@ public class MainMenuScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
+        game.sounds.playMusic(2);
+
         game.batch.begin();
         game.font.draw(game.batch, "Nexus Runner", 100, 150);
         game.font.draw(game.batch, "Touch screen to start", 100, 100);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
+            game.sounds.stop();
             dispose();
+            game.setScreen(new GameScreen(game));
         }
     }
 

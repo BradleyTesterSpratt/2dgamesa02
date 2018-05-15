@@ -2,6 +2,7 @@ package com.allsopg.game.bodies;
 
 import com.allsopg.game.physics.WorldManager;
 import com.allsopg.game.utility.CurrentDirection;
+import com.allsopg.game.utility.HUD;
 import com.allsopg.game.utility.IWorldObject;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -36,6 +37,8 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
     public boolean isFalling;
     public int health;
     public int score;
+    public float stamina;
+    private HUD hud;
 
 
     public PlayerCharacter(String atlas, Texture t, Vector2 pos) {
@@ -47,6 +50,7 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
         isFalling=false;
         health=100;
         score=0;
+        stamina=100;
     }
 
 
@@ -65,8 +69,13 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
     public void Die()
     {
         allowInput=false;
-        chooseFrames(8,10,15, Animation.PlayMode.LOOP);
+        chooseFrames(8,10,50, Animation.PlayMode.LOOP);
         dead=true;
+        hud.finalScore=score;
+    }
+
+    public void setHUD(HUD hud){
+        this.hud=hud;
     }
 
     @Override
@@ -108,7 +117,12 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
                     //stop from jumping repeatedly
                     if (!isFalling) {
                         if (pos.y < MAX_HEIGHT && vel.y < MAX_VELOCITY) {
-                            playerBody.applyLinearImpulse(0, FORCE_Y, pos.x, pos.y, true);
+                            float jumpMod=1f;
+                            if (stamina>15) {
+                                stamina -= 15;
+                                jumpMod=1.5f;
+                            }
+                            playerBody.applyLinearImpulse(0, FORCE_Y * jumpMod, pos.x, pos.y, true);
                         }
                     }
                     break;
@@ -122,9 +136,10 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
         if (!isFalling) {
             Vector2 vel = playerBody.getLinearVelocity();
             if (vel.x > -8 & vel.x < 8 & vel.y > -1 & vel.y < 1) {
-                playerBody.setLinearVelocity(0, 0);
+                playerBody.setLinearVelocity(0, vel.y);
                 chooseFrames(0, 1, 2, Animation.PlayMode.LOOP);
                 playMode = Animation.PlayMode.LOOP;
+                if (stamina<100) {stamina+=0.05f;}
             }
         }
     }

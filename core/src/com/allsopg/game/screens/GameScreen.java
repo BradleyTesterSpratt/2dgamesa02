@@ -1,6 +1,7 @@
 package com.allsopg.game.screens;
 
 import com.allsopg.game.TBWGame;
+import com.allsopg.game.bodies.BonusSprite;
 import com.allsopg.game.bodies.FirstAidSprite;
 import com.allsopg.game.bodies.NoodlesPickup;
 import com.allsopg.game.bodies.PlayerCharacter;
@@ -8,7 +9,9 @@ import com.allsopg.game.physics.WorldManager;
 import com.allsopg.game.utility.CameraManager;
 import com.allsopg.game.utility.Constants;
 import com.allsopg.game.utility.HUD;
+import com.allsopg.game.utility.Spawner;
 import com.allsopg.game.utility.UniversalResource;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -17,8 +20,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.HashMap;
+import java.util.List;
 
 import static com.allsopg.game.utility.Constants.MEDIUM;
+import static com.allsopg.game.utility.Constants.MEDKIT_ATLAS_PATH;
 import static com.allsopg.game.utility.Constants.PLAYER_ATLAS_PATH;
 import static com.allsopg.game.utility.Constants.START_POSITION;
 import static com.allsopg.game.utility.Constants.TINY;
@@ -41,8 +49,12 @@ public class GameScreen extends ScreenAdapter
     private HUD gameHUD;
     private CameraManager cameraManager;
     private float frameDelta = 0;
+    private Spawner spawner;
 
-    public GameScreen(TBWGame tbwGame){this.game = tbwGame;}
+
+    public GameScreen(TBWGame tbwGame){
+        this.game = tbwGame;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -54,33 +66,54 @@ public class GameScreen extends ScreenAdapter
     @Override
     public void show() {
         super.show();
-        //tiledMap = game.getAssetManager().get(Constants.BACKGROUND);
         tiledMap = game.getAssetManager().get(Constants.LEVELONE);
         orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(this.tiledMap,UNITSCALE);
         orthogonalTiledMapRenderer.setView(game.camera);
         if(!WorldManager.isInitialised()){WorldManager.initialise(game,tiledMap);}
         //player
         nexus = new PlayerCharacter(PLAYER_ATLAS_PATH,MEDIUM,START_POSITION);
-        //temp
-        noodles = new NoodlesPickup(TINY, new Vector2(72,10));
-        medkit = new FirstAidSprite("gfx/first_aid_kit.atlas", TINY,
-                new Vector2(30,55), Animation.PlayMode.LOOP);
-
         cameraManager = new CameraManager(game.camera,tiledMap);
         cameraManager.setTarget(nexus);
         gameHUD = new HUD(game.batch,nexus,game);
-        WorldManager.getInstance().getSounds().dispose();
-        WorldManager.getInstance().getSounds().play(4);
+        spawner = new Spawner(nexus,this);
+        //add noodle spawn locations
+        spawner.addNoodleSpawns(new Vector2(29,8));
+        spawner.addNoodleSpawns(new Vector2(63,8));
+        spawner.addNoodleSpawns(new Vector2(61,34));
+        spawner.addNoodleSpawns(new Vector2(99,34));
+        spawner.addNoodleSpawns(new Vector2(141,8));
+        spawner.addNoodleSpawns(new Vector2(141,44));
+        spawner.addNoodleSpawns(new Vector2(173,8));
+        spawner.addNoodleSpawns(new Vector2(229,8));
+        //add health spawn locations
+        spawner.addHealthSpawns(new Vector2(30 ,30));
+        spawner.addHealthSpawns(new Vector2(162,56));
+
+    }
+
+    public void spawnNoodles(Vector2 location)
+    {
+        noodles = new NoodlesPickup(TINY, location,game);
+    }
+    public void spawnHealth(Vector2 location)
+    {
+        medkit = new FirstAidSprite(MEDKIT_ATLAS_PATH, TINY, location, Animation.PlayMode.LOOP);
     }
 
     @Override
     public void render(float delta) {
         frameDelta += delta;
+        spawner.checkForNoodlesSpawn();
+        spawner.checkForHealthSpawn();
+        game.sounds.playMusic(1);
         UniversalResource.getInstance().tweenManager.update(frameDelta);
         nexus.update(frameDelta);
-        //temp
-        noodles.update(frameDelta);
-        medkit.update(frameDelta);
+        if(noodles!=null) {
+            noodles.update(frameDelta);
+        }
+        if (medkit!=null) {
+            medkit.update(frameDelta);
+        }
         gameHUD.update(delta);
         game.batch.setProjectionMatrix(game.camera.combined);
         clearScreen();
@@ -94,9 +127,12 @@ public class GameScreen extends ScreenAdapter
         cameraManager.update();
         game.batch.begin();
         nexus.draw(game.batch);
-        //temp
-        noodles.draw(game.batch);
-        medkit.draw(game.batch);
+        if (noodles!= null) {
+            noodles.draw(game.batch);
+        }
+        if (medkit!=null){
+            medkit.draw(game.batch);
+            }
         game.batch.end();
         gameHUD.stage.draw();
         WorldManager.getInstance().debugRender();

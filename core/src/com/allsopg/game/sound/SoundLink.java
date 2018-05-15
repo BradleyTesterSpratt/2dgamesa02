@@ -1,6 +1,7 @@
 package com.allsopg.game.sound;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.IntMap;
 
@@ -11,6 +12,7 @@ import com.badlogic.gdx.utils.IntMap;
 public class SoundLink
 {
     private IntMap<Sound> soundKeys;
+    private IntMap<Music> musicKeys;
 
     /**
      * Constructor for SoundLink
@@ -19,19 +21,20 @@ public class SoundLink
     public SoundLink()
     {
         soundKeys = new IntMap<Sound>();
+        musicKeys = new IntMap<Music>();
         Sound splat = Gdx.audio.newSound(Gdx.files.internal("sfx/splat.ogg"));
         Sound death = Gdx.audio.newSound(Gdx.files.internal("sfx/death.wav"));
         Sound medpack = Gdx.audio.newSound(Gdx.files.internal("sfx/firstaidpickup.wav"));
-        Sound bgm = Gdx.audio.newSound(Gdx.files.internal("sfx/2DGamesSongPlay.wav"));
-        Sound menubgm = Gdx.audio.newSound(Gdx.files.internal("sfx/2DGamesSongMainMenu.wav"));
-        Sound gameoverbgm = Gdx.audio.newSound(Gdx.files.internal("sfx/2DGamesSongGameOver.wav"));
+        Music bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/2DGamesSongPlay.wav"));
+        Music menubgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/2DGamesSongMainMenu.wav"));
+        Music gameoverbgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/2DGamesSongGameOver.wav"));
 
         soundKeys.put(1, splat);
         soundKeys.put(2, death);
         soundKeys.put(3, medpack);
-        soundKeys.put(4, bgm);
-        soundKeys.put(5, menubgm);
-        soundKeys.put(6, gameoverbgm);
+        musicKeys.put(1, bgm);
+        musicKeys.put(2, menubgm);
+        musicKeys.put(3, gameoverbgm);
     }
 
     /**
@@ -50,15 +53,31 @@ public class SoundLink
         return false;
     }
 
-    /**
-     * method to stop all sounds playing
-     */
-    public void dispose()
+    public boolean playMusic(int keyCode)
     {
+        Music music= musicKeys.get(keyCode);
+        if(music !=  null)
+        {
+            music.play();
+            return true;
+        }
+        return false;
+    }
+
+    public void stop(){
         for(Sound sound : soundKeys.values())
         {
-            sound.dispose();
+            sound.stop();
         }
+        for(Music music : musicKeys.values())
+        {
+            music.stop();
+        }
+    }
+
+    public void dispose()
+    {
+
     }
 }
 

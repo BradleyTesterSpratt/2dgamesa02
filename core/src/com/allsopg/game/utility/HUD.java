@@ -42,6 +42,7 @@ public class HUD implements Disposable {
     private static Integer score;
     private boolean timeUp;
     private int stamina;
+    public int finalScore;
 
     //Scene2D Widgets
     private Label countdownLabel, healthLabel, linkLabel, staminaLabel, staminaCount;
@@ -49,6 +50,7 @@ public class HUD implements Disposable {
 
     public HUD(SpriteBatch sb, PlayerCharacter playerCharacter, TBWGame tbwGame) {
         this.playerCharacter = playerCharacter;
+        playerCharacter.setHUD(this);
         this.game = tbwGame;
         //define tracking variables
         //worldTimer = Constants.LEVEL_TIME;
@@ -121,9 +123,9 @@ public class HUD implements Disposable {
         rightBtn = new Button( buttonStyleRight );
 
         //add buttons
-        tableControls.add(leftBtn).padLeft(25);
-        tableControls.add(upBtn).expandX().padLeft(200);
-        tableControls.add(rightBtn).expandX().padRight(25);
+        tableControls.add(leftBtn).left().expandX();
+        tableControls.add(upBtn).center();
+        tableControls.add(rightBtn).right().expandX();
         //add listeners to the buttons
         addButtonListeners();
     }
@@ -153,29 +155,31 @@ public class HUD implements Disposable {
     }
 
     public void update(float dt) {
+        stamina=(int)playerCharacter.stamina;
         health = playerCharacter.health;
         if (!playerCharacter.dead) {
-            score = playerCharacter.score;
+            score =playerCharacter.score;
         }
         scoreLabel.setText(String.format("%06d", score));
+        staminaCount.setText(String.format("%03d", stamina));
         timeCount += dt;
         if (timeCount >= 1) {
             if (health> 0) {
                 health--;
                 playerCharacter.health--;
+                playerCharacter.health--;
             } else {
                 timeUp = true;
-                GameData.getInstance().setScore(score);
-                GameData.getInstance().setTime(health);
+                //finalScore= playerCharacter.score;
                 playerCharacter.Die();
-                //game.setScreen(new EndScreen());
 
             }
             countdownLabel.setText(String.format("%03d", health));
             timeCount = 0;
         }
         if (Gdx.input.isTouched()& timeUp) {
-            game.setScreen(new EndScreen(score));
+            game.sounds.stop();
+            game.setScreen(new EndScreen(finalScore,game));
         }
     }
 

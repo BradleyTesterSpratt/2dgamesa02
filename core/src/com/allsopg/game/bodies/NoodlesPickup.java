@@ -1,9 +1,11 @@
 package com.allsopg.game.bodies;
 
+import com.allsopg.game.TBWGame;
 import com.allsopg.game.physics.WorldManager;
 import com.allsopg.game.utility.Constants;
 import com.allsopg.game.utility.IWorldObject;
 import com.allsopg.game.utility.TweenDataAccessor;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
@@ -20,8 +22,6 @@ import static com.allsopg.game.utility.Constants.DENSITY;
 import static com.allsopg.game.utility.Constants.FRICTION;
 import static com.allsopg.game.utility.Constants.NOODLE_OFFSET_X;
 import static com.allsopg.game.utility.Constants.NOODLE_OFFSET_Y;
-import static com.allsopg.game.utility.Constants.PLAYER_OFFSET_X;
-import static com.allsopg.game.utility.Constants.PLAYER_OFFSET_Y;
 import static com.allsopg.game.utility.Constants.RESTITUTION;
 
 /**
@@ -33,13 +33,14 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     //updated by a moving spawner
     //private Vector2 currentPos;
     private Body noodleBody;
+    private TBWGame game;
 
-    public NoodlesPickup(Texture t, Vector2 pos)
+    public NoodlesPickup(Texture t, Vector2 pos, TBWGame game)
     {
         super(Constants.NOODLE_ATLAS_PATH, t, pos, Constants.NOODLE_WIDTH, Constants.NOODLE_HEIGHT, Animation.PlayMode.LOOP);
         buildBody();
         spawn();
-        //currentPos=pos;
+        this.game=game;
     }
 
 
@@ -88,8 +89,8 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     public void spawn()
     {
         chooseFrames(0,2,12, Animation.PlayMode.NORMAL);
-        Tween.to(tweenData, TweenDataAccessor.TYPE_POS, 6f).targetRelative(0, 10).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS, 6f).delay(10f).targetRelative(0, -10).setCallback(new TweenCallback()
+        Tween.to(tweenData, TweenDataAccessor.TYPE_POS, 20f).targetRelative(0, 10).start(tweenManager)
+             .to(tweenData, TweenDataAccessor.TYPE_POS, 20f).delay(20f).targetRelative(0, -10).setCallback(new TweenCallback()
             {
                 @Override
                 public void onEvent(int type, BaseTween<?> source)
@@ -103,33 +104,33 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     {
 
         chooseFrames(2, 4, 4, Animation.PlayMode.LOOP);
-        Tween.to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).target(10f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_ROTATION,20f).delay(10f).target(-10f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).delay(30f).target(0f).start(tweenManager);
+        Tween.to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).targetRelative(10f).start(tweenManager)
+             .to(tweenData, TweenDataAccessor.TYPE_ROTATION,20f).delay(10f).targetRelative(-10f).start(tweenManager)
+             .to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).delay(30f).targetRelative(0f).start(tweenManager);
     }
 
     public void consume()
     {
         chooseFrames(6,7,5, Animation.PlayMode.LOOP);
-        Tween.to(tweenData, TweenDataAccessor.TYPE_POS,2f).targetRelative(-7,10f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(2f).targetRelative(-10,12f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(2f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(4f).targetRelative(-9,10f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(4f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(6f).targetRelative(-8,9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(6f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(8f).targetRelative(-7,0f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(8f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(10f).targetRelative(-7,-9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(10f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(12f).targetRelative(-7,-9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(12f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(16f).targetRelative(-6,-11f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(16f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(18f).targetRelative(-6,-13f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(18f).targetRelative(22.5f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(20f).targetRelative(-5,-16f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(20f).targetRelative(180f)
+        Tween.to(tweenData, TweenDataAccessor.TYPE_POS,50f).targetRelative(-0.7f,1.0f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(50f).targetRelative(-1,1.2f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(50f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(100f).targetRelative(-0.9f,1f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(100f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(150f).targetRelative(-0.8f,0.9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(150f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(200f).targetRelative(-0.7f,0f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(200f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(250f).targetRelative(-0.7f,-0.9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(250f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(300f).targetRelative(-0.7f,-0.9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(300f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(350f).targetRelative(-0.6f,-111f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(350f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(400f).targetRelative(-0.6f,-113f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(400f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,50f).delay(450f).targetRelative(-0.5f,-116f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 50f).delay(450f).targetRelative(180f)
                 .setCallback(new TweenCallback()
                 {
                     @Override
@@ -137,22 +138,24 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
                     {
                         chooseFrames(8,8,1,Animation.PlayMode.NORMAL);
                     }
-                }).start(tweenManager);
+                }).start(tweenManager)
+                .to(tweenData,TweenDataAccessor.TYPE_COLOUR,500f).delay(500f).start(tweenManager);
     }
 
     public void discard()
     {
         chooseFrames(9,10,10,Animation.PlayMode.LOOP);
-        Tween.to(tweenData,TweenDataAccessor.TYPE_POS,7f).targetRelative(0f,20f).start(tweenManager)
-                .to(tweenData,TweenDataAccessor.TYPE_SCALE, 7f).target(2f)
+        Tween.to(tweenData,TweenDataAccessor.TYPE_POS,800f).targetRelative(0f,15f).start(tweenManager)
+                .to(tweenData,TweenDataAccessor.TYPE_SCALE, 800f).targetRelative(5f)
                 .setCallback(new TweenCallback()
                 {
                     @Override
                     public void onEvent(int type, BaseTween<?> source)
                     {
-                        WorldManager.getInstance().getSounds().play(1);
+                        game.sounds.play(1);
                     }
                 }).start(tweenManager)
-                .to(tweenData,TweenDataAccessor.TYPE_POS,60f).delay(7f).targetRelative(0f,-Constants.SCENE_HEIGHT*2).start(tweenManager);
+                .to(tweenData,TweenDataAccessor.TYPE_POS,5000f).delay(780).targetRelative(0f,-Gdx.graphics.getHeight()).start(tweenManager)
+                .to(tweenData,TweenDataAccessor.TYPE_COLOUR,500f).delay(5800f).start(tweenManager);
     }
 }

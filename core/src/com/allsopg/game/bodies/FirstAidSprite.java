@@ -77,9 +77,7 @@ public class FirstAidSprite extends BonusSprite implements IWorldObject
 
     public void destroyRoutine()
     {
-        Tween.to(tweenData, TweenDataAccessor.TYPE_POS,0)
-                .target(.15f).start(tweenManager).to(tweenData,TweenDataAccessor.TYPE_COLOUR,500f)
-                .target(.15f,.15f,.15f,.0f).start(tweenManager);
+        Tween.to(tweenData, TweenDataAccessor.TYPE_COLOUR,1000f).target(0f,1f,0f,.0f).start(tweenManager);
     }
 }
 

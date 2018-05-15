@@ -1,6 +1,6 @@
 package com.allsopg.game.screens;
 
-import com.allsopg.game.physics.WorldManager;
+import com.allsopg.game.TBWGame;
 import com.allsopg.game.utility.Constants;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -22,28 +22,28 @@ public class EndScreen extends ScreenAdapter {
     //Scene2D Widgets
     private Label countdownLabel, headerLabel, linkLabel;
     private static Label scoreLabel;
-    private int score;
-
-    public EndScreen(int score){
+    private int finalScore;
+    private TBWGame game;
+    public EndScreen(int score, TBWGame tbwGame){
+        this.game = tbwGame;
         stage = new Stage(new FitViewport(Constants.VIRTUAL_WIDTH/3, Constants.VIRTUAL_HEIGHT/3));
         Gdx.input.setInputProcessor(stage);
         tableData = new Table();
         tableData.setFillParent(true);
         createScoreAndTimer();
         stage.addActor(tableData);
-        this.score=score;
+        finalScore = score;
+        game.sounds.stop();
 
     }
 
-    public void show() {
-        WorldManager.getInstance().getSounds().play(6);
-    }
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
     public void render(float delta) {
+        game.sounds.playMusic(3);
         clearScreen();
         stage.draw();
 
@@ -52,7 +52,7 @@ public class EndScreen extends ScreenAdapter {
     private void createScoreAndTimer(){
         //define labels using the String, and a Label style consisting of a font and color
         headerLabel = new Label("LEVEL ONE SCORE", new Label.LabelStyle(new BitmapFont(), Color.LIME));
-        scoreLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        scoreLabel = new Label(String.format("%03d", finalScore), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         linkLabel = new Label("POINTS", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         //add labels to table
         tableData.add(headerLabel).padLeft(150);

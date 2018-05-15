@@ -18,7 +18,7 @@ public class Constants {
     public static final float TILE_SIZE   = 32;
     public static final float UNITSCALE = 1.0f / TILE_SIZE;
     //Animation Speed
-    public static final float FRAME_DURATION = 1.0f / 30.0f;
+    public static final float FRAME_DURATION = 1.0f / 15.0f;
     public static final float TIME_STEP=1/60f;
     public static final int LEVEL_TIME = 30;
 
@@ -37,10 +37,10 @@ public class Constants {
     public static final float RESTITUTION=0f;
     //impulse strength
     public static final float FORCE_X=85f;
-    public static final float FORCE_Y=125f;
+    public static final float FORCE_Y=100f;
     //Speed
-    public static final float MAX_VELOCITY = 1f;
-    public static final float MAX_HEIGHT = 40;
+    public static final float MAX_VELOCITY = 2f;
+    public static final float MAX_HEIGHT = 70;
     //player body
     public static int PLAYER_WIDTH= 6;
     public static int PLAYER_HEIGHT=9;
@@ -59,6 +59,7 @@ public class Constants {
     //graphics
     public static final String PLAYER_ATLAS_PATH = "gfx/nexusPC.atlas";
     public static final String NOODLE_ATLAS_PATH = "gfx/noodles.atlas";
+    public static final String MEDKIT_ATLAS_PATH = "gfx/first_aid_kit.atlas";
     public static final Texture LARGE = new Texture(Gdx.files.internal("gfx/largeSize.png"));
     public static final Texture MEDIUM = new Texture(Gdx.files.internal("gfx/mediumSize.png"));
     public static final Texture SMALL = new Texture(Gdx.files.internal("gfx/smallSize.png"));

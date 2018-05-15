@@ -1,7 +1,6 @@
 package com.allsopg.game.physics;
 
 import com.allsopg.game.TBWGame;
-import com.allsopg.game.sound.SoundLink;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
@@ -31,7 +30,6 @@ public class WorldManager{
     private MapBodyManager mapBodyManager;
     private static Map map;
     private static boolean initialised=false;
-    private SoundLink sounds;
     private ArrayList<Body> destroyList;
 
     private static WorldManager WORLDMANAGER;
@@ -52,8 +50,7 @@ public class WorldManager{
         mapBodyManager = new MapBodyManager(world, TILE_SIZE, Gdx.files.internal(PHYSICS_MATERIALS_PATH));
         mapBodyManager.createPhysics(map,"objects");
         debugRenderer = new Box2DDebugRenderer();
-        world.setContactListener(new CollisionController());
-        sounds = new SoundLink();
+        world.setContactListener(new CollisionController(game));
         destroyList = new ArrayList<Body>();
     }
 
@@ -86,10 +83,6 @@ public class WorldManager{
             WorldManager.getInstance().getWorld().destroyBody(destroyList.get(0));
             destroyList.remove(0);
         }
-    }
-    public SoundLink getSounds()
-    {
-        return sounds;
     }
 
     public void debugRender(){
