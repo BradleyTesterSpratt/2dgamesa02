@@ -1,8 +1,8 @@
 package com.allsopg.game;
 
 import com.allsopg.game.screens.MainMenuScreen;
-import com.allsopg.game.utility.Constants;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import static com.allsopg.game.utility.Constants.INFINITE_FONT;
 import static com.allsopg.game.utility.Constants.VIRTUAL_HEIGHT;
 import static com.allsopg.game.utility.Constants.VIRTUAL_WIDTH;
 
@@ -36,7 +37,7 @@ public class TBWGame extends Game {
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
         batch = new SpriteBatch();
         //Using LibGDX's default Arial font.
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal(INFINITE_FONT));
         setScreen(new MainMenuScreen(this));
     }
 

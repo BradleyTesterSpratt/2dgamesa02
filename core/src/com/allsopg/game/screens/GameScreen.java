@@ -8,6 +8,7 @@ import com.allsopg.game.physics.WorldManager;
 import com.allsopg.game.utility.CameraManager;
 import com.allsopg.game.utility.Constants;
 import com.allsopg.game.utility.HUD;
+import com.allsopg.game.utility.UniversalResource;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -19,9 +20,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import static com.allsopg.game.utility.Constants.MEDIUM;
 import static com.allsopg.game.utility.Constants.PLAYER_ATLAS_PATH;
-import static com.allsopg.game.utility.Constants.SMALL;
-import static com.allsopg.game.utility.Constants.TINY;
 import static com.allsopg.game.utility.Constants.START_POSITION;
+import static com.allsopg.game.utility.Constants.TINY;
 import static com.allsopg.game.utility.Constants.UNITSCALE;
 import static com.allsopg.game.utility.Constants.VIRTUAL_HEIGHT;
 import static com.allsopg.game.utility.Constants.VIRTUAL_WIDTH;
@@ -30,13 +30,14 @@ import static com.allsopg.game.utility.Constants.VIRTUAL_WIDTH;
  * Created by gerard on 12/02/2017.
  */
 
-public class GameScreen extends ScreenAdapter {
+public class GameScreen extends ScreenAdapter
+{
     private TBWGame game;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private PlayerCharacter nexus;
     private NoodlesPickup noodles;
-    //private FirstAidSprite medkit;
+    private FirstAidSprite medkit;
     private HUD gameHUD;
     private CameraManager cameraManager;
     private float frameDelta = 0;
@@ -49,33 +50,37 @@ public class GameScreen extends ScreenAdapter {
         game.batch.setProjectionMatrix(game.camera.combined);
     }
 
+
     @Override
     public void show() {
         super.show();
-        tiledMap = game.getAssetManager().get(Constants.BACKGROUND);
-        //tiledMap = game.getAssetManager().get(Constants.LEVELONE);
+        //tiledMap = game.getAssetManager().get(Constants.BACKGROUND);
+        tiledMap = game.getAssetManager().get(Constants.LEVELONE);
         orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(this.tiledMap,UNITSCALE);
         orthogonalTiledMapRenderer.setView(game.camera);
         if(!WorldManager.isInitialised()){WorldManager.initialise(game,tiledMap);}
         //player
         nexus = new PlayerCharacter(PLAYER_ATLAS_PATH,MEDIUM,START_POSITION);
         //temp
-        noodles = new NoodlesPickup(TINY, new Vector2(20,10));
-        //medkit = new FirstAidSprite("gfx/first_aid_kit.atlas", TINY,
-        //        new Vector2(0,0), Animation.PlayMode.LOOP);
+        noodles = new NoodlesPickup(TINY, new Vector2(72,10));
+        medkit = new FirstAidSprite("gfx/first_aid_kit.atlas", TINY,
+                new Vector2(30,55), Animation.PlayMode.LOOP);
 
         cameraManager = new CameraManager(game.camera,tiledMap);
         cameraManager.setTarget(nexus);
         gameHUD = new HUD(game.batch,nexus,game);
+        WorldManager.getInstance().getSounds().dispose();
+        WorldManager.getInstance().getSounds().play(4);
     }
 
     @Override
     public void render(float delta) {
         frameDelta += delta;
+        UniversalResource.getInstance().tweenManager.update(frameDelta);
         nexus.update(frameDelta);
         //temp
         noodles.update(frameDelta);
-        //medkit.update(frameDelta);
+        medkit.update(frameDelta);
         gameHUD.update(delta);
         game.batch.setProjectionMatrix(game.camera.combined);
         clearScreen();
@@ -91,7 +96,7 @@ public class GameScreen extends ScreenAdapter {
         nexus.draw(game.batch);
         //temp
         noodles.draw(game.batch);
-        //medkit.draw(game.batch);
+        medkit.draw(game.batch);
         game.batch.end();
         gameHUD.stage.draw();
         WorldManager.getInstance().debugRender();

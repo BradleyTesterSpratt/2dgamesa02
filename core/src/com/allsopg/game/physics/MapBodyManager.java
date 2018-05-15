@@ -74,7 +74,7 @@ public class MapBodyManager {
      * @param map will use the "physics" layer of this map to look for shapes in order to create the static bodies.
      */
     public void createPhysics(Map map) {
-        createPhysics(map, "physics");
+        createPhysics(map, "objects");
     }
 
     /**

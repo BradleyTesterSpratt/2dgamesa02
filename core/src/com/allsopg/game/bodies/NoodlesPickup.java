@@ -34,10 +34,10 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     //private Vector2 currentPos;
     private Body noodleBody;
 
-
     public NoodlesPickup(Texture t, Vector2 pos)
     {
         super(Constants.NOODLE_ATLAS_PATH, t, pos, Constants.NOODLE_WIDTH, Constants.NOODLE_HEIGHT, Animation.PlayMode.LOOP);
+        buildBody();
         spawn();
         //currentPos=pos;
     }
@@ -75,7 +75,10 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     public void update(float stateTime)
     {
         super.update(stateTime);
-        //this.setPosition(noodleBody.getPosition().x - NOODLE_OFFSET_X, noodleBody.getPosition().y - NOODLE_OFFSET_Y);
+        if (noodleBody.isActive())
+        {
+            this.setPosition(noodleBody.getPosition().x - NOODLE_OFFSET_X, noodleBody.getPosition().y - NOODLE_OFFSET_Y);
+        }
     }
 
 
@@ -98,67 +101,58 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
 
     private void idle()
     {
+
         chooseFrames(2, 4, 4, Animation.PlayMode.LOOP);
         Tween.to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).target(10f).start(tweenManager)
              .to(tweenData, TweenDataAccessor.TYPE_ROTATION,20f).delay(10f).target(-10f).start(tweenManager)
              .to(tweenData, TweenDataAccessor.TYPE_ROTATION,10f).delay(30f).target(0f).start(tweenManager);
     }
 
-    /**
-     * should be private to be called only by collision
-     *
-     */
+    public void consume()
+    {
+        chooseFrames(6,7,5, Animation.PlayMode.LOOP);
+        Tween.to(tweenData, TweenDataAccessor.TYPE_POS,2f).targetRelative(-7,10f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(2f).targetRelative(-10,12f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(2f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(4f).targetRelative(-9,10f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(4f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(6f).targetRelative(-8,9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(6f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(8f).targetRelative(-7,0f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(8f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(10f).targetRelative(-7,-9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(10f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(12f).targetRelative(-7,-9f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(12f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(16f).targetRelative(-6,-11f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(16f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(18f).targetRelative(-6,-13f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(18f).targetRelative(22.5f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(20f).targetRelative(-5,-16f).start(tweenManager)
+                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(20f).targetRelative(180f)
+                .setCallback(new TweenCallback()
+                {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source)
+                    {
+                        chooseFrames(8,8,1,Animation.PlayMode.NORMAL);
+                    }
+                }).start(tweenManager);
+    }
+
     public void discard()
     {
-
-        chooseFrames(5,5,4, Animation.PlayMode.LOOP);
-        Tween.to(tweenData, TweenDataAccessor.TYPE_POS,2f).targetRelative(-7,10f).start(tweenManager)
-                //.to(tweenData, TweenDataAccessor.TYPE_ROTATION, 4f).target(-18f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(2f).targetRelative(-10,12f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(2f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(4f).targetRelative(-9,10f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(4f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(6f).targetRelative(-8,9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(6f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(8f).targetRelative(-7,0f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(8f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(10f).targetRelative(-7,-9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(10f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(12f).targetRelative(-7,-9f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(12f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(16f).targetRelative(-6,-11f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(16f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(18f).targetRelative(-6,-13f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(18f).targetRelative(22.5f).start(tweenManager)
-             .to(tweenData, TweenDataAccessor.TYPE_POS,2f).delay(20f).targetRelative(-5,-16f).start(tweenManager)
-                .to(tweenData, TweenDataAccessor.TYPE_ROTATION, 2f).delay(18f).targetRelative(200f).start(tweenManager).setCallback(new TweenCallback()
-        {
-            @Override
-            public void onEvent(int type, BaseTween<?> source)
-            {
-                chooseFrames(6,6,1, Animation.PlayMode.NORMAL);
-            }
-        }).start(tweenManager);
+        chooseFrames(9,10,10,Animation.PlayMode.LOOP);
+        Tween.to(tweenData,TweenDataAccessor.TYPE_POS,7f).targetRelative(0f,20f).start(tweenManager)
+                .to(tweenData,TweenDataAccessor.TYPE_SCALE, 7f).target(2f)
+                .setCallback(new TweenCallback()
+                {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source)
+                    {
+                        WorldManager.getInstance().getSounds().play(1);
+                    }
+                }).start(tweenManager)
+                .to(tweenData,TweenDataAccessor.TYPE_POS,60f).delay(7f).targetRelative(0f,-Constants.SCENE_HEIGHT*2).start(tweenManager);
     }
-
-    /**
-     * newX and newY methods can be used with a moving spawner
-     * use in place of .targetReleative
-     * eg .target(newX,newY)
-    **/
-    /*
-    private Float newX(float offset)
-    {
-        float newX = currentPos.x+offset;
-        currentPos.set(newX,currentPos.y);
-        return newX;
-    }
-
-    private Float newY(float offset)
-    {
-        float newY = currentPos.y+offset;
-        currentPos.set(currentPos.x,newY);
-        return newY;
-    }
-    */
 }

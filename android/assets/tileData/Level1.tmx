@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="64" tileheight="64" nextobjectid="2">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="64" tileheight="64" nextobjectid="14">
  <tileset firstgid="1" source="NexusRunner.tsx"/>
- <layer name="Tile Layer 1" width="120" height="90">
+ <layer name="Play Layer" width="120" height="90">
   <data encoding="base64" compression="zlib">
-   eJztx8ERQDAUQMEw2sIZZ3ShAAWo259UkGOS2Z15h5cSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADUZYjGaCp82jJHS7QWPm3Zoj06Cp+2nNEV3YVPPR7levUq16tPuV79AkZmQA==
+   eJzt2MtNG1EUgOHxhkAfxBTAowBIFlmGsKADCqAKOqACHhIsgRSQhDWCsKcESArIAfmKq+sxmGBmGOv7pF8jee5iRkfHkl1VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAk7UX7UcH0WHLz8LknUSn0Vn0veVn4WVuspJyX39EP6Nf0XnTD8ir1M233NfL6Cr6HV03/YD8t/s9PYqOB43aV/PtprSnqVH7Ou58L2qiPWlP066W+zoTfYhmo7lqeL75/fI618gb8JQ0x7Sb5b7ORx+jfrRQDc833c/rZ+dp13PzXYyWouVopRqeb7pfnktX2pXPt/wuNt/uy+dbfhc/Nd/tQeb7vuXzLWc0znxXo7Wac5+izw2+B/VeO1/7+77l8027mHav7rNR+1ueq9tfv4ebdxvdDfoarUffoo0Rn/2J/laP803305l0Tedz/vN4e1963YzxbPa62U412abVVq+b7VaTbVrt66Fp9Q/SYfus
   </data>
  </layer>
- <objectgroup name="Object Layer 1">
-  <object id="1" x="0" y="5550" width="1072" height="64"/>
+ <layer name="Forground Layer" width="120" height="90">
+  <data encoding="base64" compression="zlib">
+   eJzt2DFOAzEURVG7RIE+ZAOBDSBBn4Kegh2wemADgPACpmCEHU+ezpF+O/rK1ThxSgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWOdq9gIMtZ+9AEMdZy/AUA+zF2Co0+wFGErfbPpm0zebvtn0zaZvNn2z6ZtN32z+n8zm/c2mb7alvu9tPtp8nnkX+lvq+9Xmu83PmXehv6W+u1rKdZub+v/nOwvmGv396yyYa3TfnmcB6/n9nE3fbPpm0zebvtn0zbalvo/tDvXkHtXVlvruW9vbNgeNu9lS32Pretfm/g99n2vfSbWlvmu81r6T6lL7vtW+k+ql9P+sLnFS/QIWDUTn
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="1" name="floor" type="RectangleMapObject" x="0" y="5562" width="6400" height="64"/>
+  <object id="7" name="roof1" type="RectangleMapObject" x="452" y="5188" width="246" height="62"/>
+  <object id="8" name="roof2" type="RectangleMapObject" x="772" y="4994" width="246" height="62"/>
+  <object id="9" name="roof3" type="RectangleMapObject" x="1286" y="4998" width="506" height="64"/>
+  <object id="11" name="wall" type="RectangleMapObject" x="-162" y="3590" width="218" height="2032"/>
  </objectgroup>
 </map>

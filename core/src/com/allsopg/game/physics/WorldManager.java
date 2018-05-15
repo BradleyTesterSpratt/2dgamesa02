@@ -1,12 +1,17 @@
 package com.allsopg.game.physics;
 
 import com.allsopg.game.TBWGame;
+import com.allsopg.game.sound.SoundLink;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
+import java.util.ArrayList;
+
 import static com.allsopg.game.utility.Constants.PHYSICS_MATERIALS_PATH;
 import static com.allsopg.game.utility.Constants.POSITION_ITERATIONS;
 import static com.allsopg.game.utility.Constants.TILE_SIZE;
@@ -18,7 +23,7 @@ import static com.allsopg.game.utility.Constants.VELOCITY_ITERATIONS;
  * Updates 24/02/18
  */
 
-public class WorldManager {
+public class WorldManager{
     private final Vector2 gravity;
     private World world;
     private Box2DDebugRenderer debugRenderer;
@@ -26,6 +31,8 @@ public class WorldManager {
     private MapBodyManager mapBodyManager;
     private static Map map;
     private static boolean initialised=false;
+    private SoundLink sounds;
+    private ArrayList<Body> destroyList;
 
     private static WorldManager WORLDMANAGER;
 
@@ -43,8 +50,11 @@ public class WorldManager {
         Box2D.init();
         world = new World(gravity, true);
         mapBodyManager = new MapBodyManager(world, TILE_SIZE, Gdx.files.internal(PHYSICS_MATERIALS_PATH));
-        mapBodyManager.createPhysics(map,"physics");
+        mapBodyManager.createPhysics(map,"objects");
         debugRenderer = new Box2DDebugRenderer();
+        world.setContactListener(new CollisionController());
+        sounds = new SoundLink();
+        destroyList = new ArrayList<Body>();
     }
 
     public static void initialise(TBWGame aGame, Map aMap){
@@ -53,6 +63,10 @@ public class WorldManager {
         initialised = true;
     }
 
+    public void addDestroyList(Body body)
+    {
+        destroyList.add(body);
+    }
     public static boolean isInitialised(){
         return initialised;
     }
@@ -61,6 +75,21 @@ public class WorldManager {
 
     public void doPhysicsStep(float deltaTime) {
         world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
+        clearBodies();
+    }
+
+    private void clearBodies()
+    {
+        while(!destroyList.isEmpty())
+        {
+            destroyList.get(0).setActive(false);
+            WorldManager.getInstance().getWorld().destroyBody(destroyList.get(0));
+            destroyList.remove(0);
+        }
+    }
+    public SoundLink getSounds()
+    {
+        return sounds;
     }
 
     public void debugRender(){
@@ -68,5 +97,6 @@ public class WorldManager {
             debugRenderer.render(world, game.camera.combined);
         game.batch.end();
     }
+
 
 }

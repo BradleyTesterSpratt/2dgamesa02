@@ -1,12 +1,13 @@
 package com.allsopg.game.screens;
 
 import com.allsopg.game.TBWGame;
+import com.allsopg.game.sound.SoundLink;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
-import static com.allsopg.game.utility.Constants.BACKGROUND;
+import static com.allsopg.game.utility.Constants.LEVELONE;
 
 
 /**
@@ -15,15 +16,18 @@ import static com.allsopg.game.utility.Constants.BACKGROUND;
 
 public class MainMenuScreen extends ScreenAdapter {
         private TBWGame game;
-
+        public SoundLink sounds;
         public MainMenuScreen(TBWGame aGame) {
             this.game = aGame;
         }
 
     @Override
     public void show() {
-        game.getAssetManager().load(BACKGROUND, TiledMap.class);
+        //game.getAssetManager().load(BACKGROUND, TiledMap.class);
+        game.getAssetManager().load(LEVELONE, TiledMap.class);
         game.getAssetManager().finishLoading();
+        sounds = new SoundLink();
+        sounds.play(5);
     }
 
     @Override

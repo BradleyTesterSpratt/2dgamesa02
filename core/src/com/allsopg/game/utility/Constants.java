@@ -26,19 +26,21 @@ public class Constants {
     public static final int POSITION_ITERATIONS = 2;
 
     public static final String BACKGROUND = "tileData/assignment_two.tmx";
-    public static final String LEVELONE = "tileData/level_one.tmx";
+    public static final String LEVELONE = "tileData/Level1.tmx";
 
     public static final String PHYSICS_MATERIALS_PATH = "tileData/physicsData.json";
 
-    public static final float DENSITY=.5f;
-    public static final float FRICTION=.5f;
-    public static final float RESTITUTION=.5f;
+    //fonts
+    public static final String INFINITE_FONT ="font/infinite.fnt";
+    public static final float DENSITY=.2f;
+    public static final float FRICTION=.75f;
+    public static final float RESTITUTION=0f;
     //impulse strength
-    public static final float FORCE_X=100f;
-    public static final float FORCE_Y=200f;
+    public static final float FORCE_X=85f;
+    public static final float FORCE_Y=125f;
     //Speed
     public static final float MAX_VELOCITY = 1f;
-    public static final float MAX_HEIGHT = 18;
+    public static final float MAX_HEIGHT = 40;
     //player body
     public static int PLAYER_WIDTH= 6;
     public static int PLAYER_HEIGHT=9;
@@ -47,11 +49,17 @@ public class Constants {
     //noodle body
     public static int NOODLE_WIDTH= 2;
     public static int NOODLE_HEIGHT=2;
-    public static float NOODLE_OFFSET_Y=1f;
-    public static float NOODLE_OFFSET_X=1f;
+    public static float NOODLE_OFFSET_Y=0.5f;
+    public static float NOODLE_OFFSET_X=0.5f;
+    //medkit body
+    public static int MEDKIT_WIDTH= 5/2;
+    public static int MEDKIT_HEIGHT=5/2;
+    public static float MEDKIT_OFFSET_Y=0.1f;
+    public static float MEDKIT_OFFSET_X=0.1f;
     //graphics
     public static final String PLAYER_ATLAS_PATH = "gfx/nexusPC.atlas";
     public static final String NOODLE_ATLAS_PATH = "gfx/noodles.atlas";
+    public static final Texture LARGE = new Texture(Gdx.files.internal("gfx/largeSize.png"));
     public static final Texture MEDIUM = new Texture(Gdx.files.internal("gfx/mediumSize.png"));
     public static final Texture SMALL = new Texture(Gdx.files.internal("gfx/smallSize.png"));
     public static final Texture TINY = new Texture(Gdx.files.internal("gfx/tinySize.png"));
