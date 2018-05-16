@@ -40,7 +40,6 @@ public class TBWGame extends Game {
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
         batch = new SpriteBatch();
-        //Using LibGDX's default Arial font.
         font = new BitmapFont(Gdx.files.internal(INFINITE_FONT));
         setScreen(new MainMenuScreen(this));
         sounds=new SoundLink();

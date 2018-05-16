@@ -22,7 +22,7 @@ public class SoundLink
     {
         soundKeys = new IntMap<Sound>();
         musicKeys = new IntMap<Music>();
-        Sound splat = Gdx.audio.newSound(Gdx.files.internal("sfx/splat.ogg"));
+        Sound splat = Gdx.audio.newSound(Gdx.files.internal("sfx/splat.wav"));
         Sound death = Gdx.audio.newSound(Gdx.files.internal("sfx/death.wav"));
         Sound medpack = Gdx.audio.newSound(Gdx.files.internal("sfx/firstaidpickup.wav"));
         Music bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/2DGamesSongPlay.wav"));
