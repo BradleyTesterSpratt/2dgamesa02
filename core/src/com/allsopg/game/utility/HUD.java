@@ -42,7 +42,6 @@ public class HUD implements Disposable {
     private static Integer score;
     private boolean timeUp;
     private int stamina;
-    public int finalScore;
 
     //Scene2D Widgets
     private Label countdownLabel, healthLabel, linkLabel, staminaLabel, staminaCount;
@@ -54,7 +53,6 @@ public class HUD implements Disposable {
 
     public HUD(SpriteBatch sb, PlayerCharacter playerCharacter, TBWGame tbwGame) {
         this.playerCharacter = playerCharacter;
-        playerCharacter.setHUD(this);
         this.game = tbwGame;
         //define tracking variables
         //worldTimer = Constants.LEVEL_TIME;
@@ -171,9 +169,7 @@ public class HUD implements Disposable {
     public void update(float dt) {
         stamina=(int)playerCharacter.stamina;
         health = playerCharacter.health;
-        if (!playerCharacter.dead) {
-            score =playerCharacter.score;
-        }
+        score=game.gameData.getScore();
         if (debug) {
             xLabel.setText(String.format("%03d", (int) playerCharacter.getX()));
             yLabel.setText(String.format("%03d", (int) playerCharacter.getY()));
@@ -188,7 +184,6 @@ public class HUD implements Disposable {
                 playerCharacter.health--;
             } else {
                 timeUp = true;
-                //finalScore= playerCharacter.score;
                 playerCharacter.Die();
 
             }
@@ -197,7 +192,7 @@ public class HUD implements Disposable {
         }
         if (Gdx.input.isTouched()& timeUp) {
             game.sounds.stop();
-            game.setScreen(new EndScreen(finalScore,game));
+            game.setScreen(new EndScreen(game));
         }
     }
 

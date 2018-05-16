@@ -36,9 +36,8 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
     public boolean dead;
     public boolean isFalling;
     public int health;
-    public int score;
+    //public int score;
     public float stamina;
-    private HUD hud;
 
 
     public PlayerCharacter(String atlas, Texture t, Vector2 pos) {
@@ -49,7 +48,7 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
         dead=false;
         isFalling=false;
         health=100;
-        score=0;
+        //score=0;
         stamina=100;
     }
 
@@ -71,11 +70,6 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
         allowInput=false;
         chooseFrames(8,10,50, Animation.PlayMode.LOOP);
         dead=true;
-        hud.finalScore=score;
-    }
-
-    public void setHUD(HUD hud){
-        this.hud=hud;
     }
 
     @Override

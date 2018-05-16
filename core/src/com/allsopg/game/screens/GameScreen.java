@@ -106,7 +106,7 @@ public class GameScreen extends ScreenAdapter
         {
             if (objects.get(index).getName()==("healthSpawn"))
             {
-                //get objects location
+                //get objects location (from its fixture def/body? then destroy it?)
                 //spawn health at location of object
                 spawnHealth(new Vector2());
             }

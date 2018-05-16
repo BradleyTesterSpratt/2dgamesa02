@@ -2,6 +2,7 @@ package com.allsopg.game;
 
 import com.allsopg.game.screens.MainMenuScreen;
 import com.allsopg.game.sound.SoundLink;
+import com.allsopg.game.utility.GameData;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -29,6 +30,7 @@ public class TBWGame extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
     public SoundLink sounds;
+    public GameData gameData;
 
     @Override
     public void create() {
@@ -42,6 +44,7 @@ public class TBWGame extends Game {
         font = new BitmapFont(Gdx.files.internal(INFINITE_FONT));
         setScreen(new MainMenuScreen(this));
         sounds=new SoundLink();
+        gameData= GameData.getInstance();
     }
 
     public AssetManager getAssetManager() {

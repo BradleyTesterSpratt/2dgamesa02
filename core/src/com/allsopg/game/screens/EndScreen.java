@@ -24,7 +24,7 @@ public class EndScreen extends ScreenAdapter {
     private static Label scoreLabel;
     private int finalScore;
     private TBWGame game;
-    public EndScreen(int score, TBWGame tbwGame){
+    public EndScreen(TBWGame tbwGame){
         this.game = tbwGame;
         stage = new Stage(new FitViewport(Constants.VIRTUAL_WIDTH/3, Constants.VIRTUAL_HEIGHT/3));
         Gdx.input.setInputProcessor(stage);
@@ -32,7 +32,6 @@ public class EndScreen extends ScreenAdapter {
         tableData.setFillParent(true);
         createScoreAndTimer();
         stage.addActor(tableData);
-        finalScore = score;
         game.sounds.stop();
 
     }
@@ -52,7 +51,7 @@ public class EndScreen extends ScreenAdapter {
     private void createScoreAndTimer(){
         //define labels using the String, and a Label style consisting of a font and color
         headerLabel = new Label("LEVEL ONE SCORE", new Label.LabelStyle(new BitmapFont(), Color.LIME));
-        scoreLabel = new Label(String.format("%03d", finalScore), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        scoreLabel = new Label(String.format("%03d", game.gameData.getScore()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         linkLabel = new Label("POINTS", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         //add labels to table
         tableData.add(headerLabel).padLeft(150);

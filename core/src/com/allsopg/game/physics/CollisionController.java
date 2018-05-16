@@ -93,7 +93,7 @@ public class CollisionController implements ContactListener
     {
         game.sounds.play(3);
         pc.health += 25;
-        pc.score+=10;
+        game.gameData.setScore(game.gameData.getScore()+50);
         if(pc.health>100){pc.health=100;}
         fas.destroyRoutine();
     }
@@ -102,11 +102,11 @@ public class CollisionController implements ContactListener
     {
         if (pc.stamina == 100) {
             np.discard();
-            pc.score += 100;
+            game.gameData.setScore(game.gameData.getScore()+500);
         } else {
             pc.stamina+=35;
             np.consume();
-            pc.score += 50;
+            game.gameData.setScore(game.gameData.getScore()+100);
         }
     }
 
