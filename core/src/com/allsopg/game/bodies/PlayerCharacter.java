@@ -163,7 +163,7 @@ public class PlayerCharacter extends AnimatedSprite implements IWorldObject {
     public FixtureDef getFixtureDef(float density, float friction, float restitution) {
         //prepare for Fixture definition
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox((getWidth()/2)-.75f,getHeight()/2);
+        shape.setAsBox((getWidth()/2)-1.5f,getHeight()/2-1f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = density;

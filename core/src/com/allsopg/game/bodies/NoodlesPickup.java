@@ -62,7 +62,7 @@ public class NoodlesPickup extends BonusSprite implements IWorldObject
     {
         //prepare for Fixture definition
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox((getWidth()/2)-.75f,getHeight()/2);
+        shape.setAsBox((getWidth()/2),getHeight()/2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = density;

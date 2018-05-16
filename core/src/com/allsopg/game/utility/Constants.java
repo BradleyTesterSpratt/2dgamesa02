@@ -32,7 +32,7 @@ public class Constants {
 
     //fonts
     public static final String INFINITE_FONT ="font/infinite.fnt";
-    public static final float DENSITY=.2f;
+    public static final float DENSITY=.4f;
     public static final float FRICTION=.75f;
     public static final float RESTITUTION=0f;
     //impulse strength
@@ -44,18 +44,18 @@ public class Constants {
     //player body
     public static int PLAYER_WIDTH= 6;
     public static int PLAYER_HEIGHT=9;
-    public static float PLAYER_OFFSET_Y=4.5f;
+    public static float PLAYER_OFFSET_Y=3.5f;
     public static float PLAYER_OFFSET_X=3f;
     //noodle body
     public static int NOODLE_WIDTH= 2;
     public static int NOODLE_HEIGHT=2;
-    public static float NOODLE_OFFSET_Y=0f;
-    public static float NOODLE_OFFSET_X=0f;
+    public static float NOODLE_OFFSET_Y=1f;
+    public static float NOODLE_OFFSET_X=1f;
     //medkit body
     public static int MEDKIT_WIDTH= 5/2;
     public static int MEDKIT_HEIGHT=5/2;
-    public static float MEDKIT_OFFSET_Y=0f;
-    public static float MEDKIT_OFFSET_X=0f;
+    public static float MEDKIT_OFFSET_Y=1.2f;
+    public static float MEDKIT_OFFSET_X=1.2f;
     //graphics
     public static final String PLAYER_ATLAS_PATH = "gfx/nexusPC.atlas";
     public static final String NOODLE_ATLAS_PATH = "gfx/noodles.atlas";
@@ -67,9 +67,4 @@ public class Constants {
     //player start position
     public static final Vector2 START_POSITION = new Vector2(10,10);
 
-    public static final float WORLD_TO_SCREEN = 1.0f / 100.0f;
-    public static final float SCENE_WIDTH = 1280f;
-    public static final float SCENE_HEIGHT = 720f;
-    public static final float VIEWPORT_WIDTH = 5.0f;
-    public static final float VIEWPORT_HEIGHT = 5.0f;
 }

@@ -47,6 +47,10 @@ public class HUD implements Disposable {
     //Scene2D Widgets
     private Label countdownLabel, healthLabel, linkLabel, staminaLabel, staminaCount;
     private static Label scoreLabel;
+    //debug
+    private boolean debug;
+    private Label xLabel;
+    private Label yLabel;
 
     public HUD(SpriteBatch sb, PlayerCharacter playerCharacter, TBWGame tbwGame) {
         this.playerCharacter = playerCharacter;
@@ -58,6 +62,7 @@ public class HUD implements Disposable {
         timeCount = 0;
         score = 0;
         stamina=100;
+        debug=false;
         //new camera used to setup the HUD viewport seperate from the main Game Camera
         //define stage using that viewport and games spritebatch
         viewport = new FitViewport(Constants.VIRTUAL_WIDTH,
@@ -97,6 +102,15 @@ public class HUD implements Disposable {
         tableData.add(countdownLabel).expandX().padTop(5);
         tableData.add(staminaLabel).padRight(120);
         tableData.add(staminaCount).expandX().padTop(5);
+
+        if (debug) {
+            xLabel = new Label(String.format("%03d", (int) playerCharacter.getX()),
+                    new Label.LabelStyle(new BitmapFont(Gdx.files.internal(INFINITE_FONT)), Color.WHITE));
+            yLabel = new Label(String.format("%03d", (int) playerCharacter.getY()),
+                    new Label.LabelStyle(new BitmapFont(Gdx.files.internal(INFINITE_FONT)), Color.WHITE));
+            tableData.add(xLabel).expandX();
+            tableData.add(yLabel).expandX();
+        }
     }
 
     private void createNavButtons(){
@@ -159,6 +173,10 @@ public class HUD implements Disposable {
         health = playerCharacter.health;
         if (!playerCharacter.dead) {
             score =playerCharacter.score;
+        }
+        if (debug) {
+            xLabel.setText(String.format("%03d", (int) playerCharacter.getX()));
+            yLabel.setText(String.format("%03d", (int) playerCharacter.getY()));
         }
         scoreLabel.setText(String.format("%06d", score));
         staminaCount.setText(String.format("%03d", stamina));

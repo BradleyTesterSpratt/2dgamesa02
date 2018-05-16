@@ -49,26 +49,13 @@ public class CollisionController implements ContactListener
                         NoodlesPickup np = (NoodlesPickup) oB;
                         //stop further collision
                         WorldManager.getInstance().addDestroyList(bB);
-                        if (pc.stamina == 100) {
-                            np.discard();
-                            pc.score += 100;
-                        } else {
-                            pc.stamina+=35;
-                            np.consume();
-                            pc.score += 50;
-                        }
+                        playerNoodleCollision(pc,np);
                     }
                     //check if its a med kit
                     else if (oB.getClass() == FirstAidSprite.class) {
                         FirstAidSprite fas = (FirstAidSprite) oB;
-                        game.sounds.play(3);
-                        pc.health += 10;
-                        pc.score += 10;
-                        if (pc.health > 100) {
-                            pc.health = 100;
-                        }
                         WorldManager.getInstance().addDestroyList(bB);
-                        fas.destroyRoutine();
+                        playerHealthCollsion(pc,fas);
                     }
                 }
             }
@@ -89,32 +76,40 @@ public class CollisionController implements ContactListener
                     {
                         NoodlesPickup np = (NoodlesPickup) oA;
                         WorldManager.getInstance().addDestroyList(bA);
-                        if (pc.stamina==100)
-                        {
-                            np.discard();
-                            pc.score+=100;
-                        }
-                        else
-                        {
-                            pc.stamina+=35;
-                            np.consume();
-                            pc.score+=50;
-                        }
+                        playerNoodleCollision(pc,np);
                     }
                     else if (oA.getClass() == FirstAidSprite.class)
                     {
                         FirstAidSprite fas = (FirstAidSprite) oA;
-                        game.sounds.play(3);
-                        pc.health += 10;
-                        pc.score+=10;
-                        if(pc.health>100){pc.health=100;}
                         WorldManager.getInstance().addDestroyList(bA);
-                        fas.destroyRoutine();
+                        playerHealthCollsion(pc,fas);
                     }
                 }
             }
         }
     }
+
+    private void playerHealthCollsion(PlayerCharacter pc, FirstAidSprite fas)
+    {
+        game.sounds.play(3);
+        pc.health += 25;
+        pc.score+=10;
+        if(pc.health>100){pc.health=100;}
+        fas.destroyRoutine();
+    }
+
+    private void playerNoodleCollision(PlayerCharacter pc, NoodlesPickup np)
+    {
+        if (pc.stamina == 100) {
+            np.discard();
+            pc.score += 100;
+        } else {
+            pc.stamina+=35;
+            np.consume();
+            pc.score += 50;
+        }
+    }
+
     public void endContact(Contact contactObj) {
         Fixture fA = contactObj.getFixtureA();
         Fixture fB = contactObj.getFixtureB();

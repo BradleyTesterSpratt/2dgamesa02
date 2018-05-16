@@ -17,6 +17,9 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -76,20 +79,40 @@ public class GameScreen extends ScreenAdapter
         cameraManager.setTarget(nexus);
         gameHUD = new HUD(game.batch,nexus,game);
         spawner = new Spawner(nexus,this);
-        //add noodle spawn locations
-        spawner.addNoodleSpawns(new Vector2(29,8));
-        spawner.addNoodleSpawns(new Vector2(63,8));
-        spawner.addNoodleSpawns(new Vector2(61,34));
-        spawner.addNoodleSpawns(new Vector2(99,34));
-        spawner.addNoodleSpawns(new Vector2(141,8));
-        spawner.addNoodleSpawns(new Vector2(141,44));
-        spawner.addNoodleSpawns(new Vector2(173,8));
-        spawner.addNoodleSpawns(new Vector2(229,8));
-        //add health spawn locations
-        spawner.addHealthSpawns(new Vector2(30 ,30));
-        spawner.addHealthSpawns(new Vector2(162,56));
-
+        setSpawnLocations();
     }
+
+    public void setSpawnLocations()
+    {
+        //add noodle spawn locations
+        spawner.addPickupSpawn(new Vector2(20,10),0);
+        spawner.addPickupSpawn(new Vector2(70,10),0);
+        spawner.addPickupSpawn(new Vector2(68,34),0);
+        spawner.addPickupSpawn(new Vector2(103,33),0);
+        spawner.addPickupSpawn(new Vector2(146,10),0);
+        spawner.addPickupSpawn(new Vector2(146,44),0);
+        spawner.addPickupSpawn(new Vector2(177,10),0);
+        spawner.addPickupSpawn(new Vector2(233,10),0);
+        //add health spawn locations
+        spawner.addPickupSpawn(new Vector2(28 ,27),1);
+        spawner.addPickupSpawn(new Vector2(160,56),1);
+    }
+
+    public void setSpawnLocationsFromMap()
+    {
+        MapLayer layer = tiledMap.getLayers().get("object");
+        MapObjects objects = layer.getObjects();
+        for (int index = 0;index<objects.getCount();index++)
+        {
+            if (objects.get(index).getName()==("healthSpawn"))
+            {
+                //get objects location
+                //spawn health at location of object
+                spawnHealth(new Vector2());
+            }
+        }
+    }
+
 
     public void spawnNoodles(Vector2 location)
     {
@@ -103,8 +126,7 @@ public class GameScreen extends ScreenAdapter
     @Override
     public void render(float delta) {
         frameDelta += delta;
-        spawner.checkForNoodlesSpawn();
-        spawner.checkForHealthSpawn();
+        spawner.checkForSpawns();
         game.sounds.playMusic(1);
         UniversalResource.getInstance().tweenManager.update(frameDelta);
         nexus.update(frameDelta);

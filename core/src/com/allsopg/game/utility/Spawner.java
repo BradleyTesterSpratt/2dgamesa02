@@ -17,6 +17,7 @@ public class Spawner {
 
     private ArrayMap<Vector2,Boolean> noodleSpawns;
     private ArrayMap<Vector2,Boolean> healthSpawns;
+    private ArrayMap<Vector2,Integer> pickupSpawns;
     private PlayerCharacter pc;
     private GameScreen gameScreen;
 
@@ -24,66 +25,40 @@ public class Spawner {
         this.pc=pc;
         this.gameScreen=gameScreen;
 
-        //set noodle spawn spots
-        noodleSpawns=new ArrayMap<Vector2, Boolean>();
-
-        //set medpack spawn spots
-        healthSpawns=new ArrayMap<Vector2, Boolean>();
+        pickupSpawns=new ArrayMap<Vector2, Integer>();
     }
 
-    public void addNoodleSpawns(Vector2 vector)
+    public void addPickupSpawn(Vector2 vector, int pickupType)
     {
-        noodleSpawns.put(vector,false);
+        pickupSpawns.put(vector,pickupType);
     }
 
-    public void addHealthSpawns(Vector2 vector)
+    public void checkForSpawns()
     {
-        healthSpawns.put(vector,false);
-    }
-
-    public void checkForNoodlesSpawn() {
-        for (int index = 0; index < noodleSpawns.size; index++) {
-            //if not already spawned
-            if (noodleSpawns.getValueAt(index) == false) {
-                //calculate distance between 2 vectors
-                double distance = checkDistance(noodleSpawns.getKeyAt(index));
-                // if player in range
-                if (distance < 20) {
-                    //give 33% chance to spawn
-                    if (Math.random() * 100 < 33) {
-                        gameScreen.spawnNoodles(noodleSpawns.getKeyAt(index));
+        if (pickupSpawns.size!=0)
+        {
+            for (int index = 0; index<pickupSpawns.size;index++)
+            {
+                double distance= checkDistance(pickupSpawns.getKeyAt(index));
+                if (distance<20)
+                {
+                    switch (pickupSpawns.getValueAt((index)))
+                    {
+                        case 0:
+                            if (Math.random()*100<=33)
+                            {
+                                gameScreen.spawnNoodles(pickupSpawns.getKeyAt(index));
+                            }
+                            break;
+                        case 1:
+                            gameScreen.spawnHealth(pickupSpawns.getKeyAt(index));
+                            break;
                     }
-                    noodleSpawns.setValue(index, true);
-                    break;
+                    pickupSpawns.removeIndex(index);
                 }
             }
         }
     }
-
-    /*
-     * This code slows down the game to unplayable state
-     * Temporarily removed as game currently only has 2 medpacks
-     * so they always spawn, not worth wasting memory
-     */
-
-    public void checkForHealthSpawn()
-    {
-        for (int index = 0; index<healthSpawns.size; index++ ) {
-            //if not already spawned
-            if (healthSpawns.getValueAt(index) == false) {
-                //calculate distance between 2 vectors
-                double distance = checkDistance(healthSpawns.getKeyAt(index));
-                // if player in range
-                if (distance < 20) {
-                    gameScreen.spawnHealth(healthSpawns.getKeyAt(index));
-                    healthSpawns.setValue(index, true);
-                    break;
-                }
-            }
-
-        }
-    }
-
 
     /*
      * code for finding distance edited from
