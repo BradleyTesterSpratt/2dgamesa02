@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="64" tileheight="64" nextobjectid="43">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="120" height="90" tilewidth="64" tileheight="64" nextobjectid="52">
  <tileset firstgid="1" source="NexusRunner.tsx"/>
  <layer name="Play Layer" width="120" height="90">
   <data encoding="base64" compression="zlib">
@@ -8,7 +8,7 @@
  </layer>
  <layer name="Forground Layer" width="120" height="90">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup name="objects">
@@ -23,8 +23,8 @@
   <object id="19" name="roof9" type="RectangleMapObject" x="3391.5" y="4993" width="131" height="64"/>
   <object id="20" name="roof11" type="RectangleMapObject" x="3967.5" y="4992" width="131" height="64"/>
   <object id="21" name="roof12" type="RectangleMapObject" x="4159.5" y="4735" width="131" height="64"/>
-  <object id="22" name="roof17" type="RectangleMapObject" x="6015.5" y="4222" width="131" height="64"/>
-  <object id="23" name="roof16" type="RectangleMapObject" x="6075.32" y="4865.33" width="131" height="64"/>
+  <object id="22" name="roof17" type="RectangleMapObject" x="6015.5" y="4279.58" width="131" height="64"/>
+  <object id="23" name="roof16" type="RectangleMapObject" x="6081.38" y="4732" width="131" height="64"/>
   <object id="24" name="roof5" type="RectangleMapObject" x="1920" y="4796" width="508" height="64"/>
   <object id="25" name="roof14" type="RectangleMapObject" x="4989" y="4094" width="258" height="64"/>
   <object id="26" name="roof18" type="RectangleMapObject" x="6205" y="3842" width="258" height="64"/>
@@ -39,7 +39,6 @@
   <object id="37" name="wall6" type="RectangleMapObject" x="4992.09" y="4163.65" width="255.455" height="1618.76"/>
   <object id="39" name="roof22" type="RectangleMapObject" x="4802.5" y="4224" width="131" height="64"/>
   <object id="40" name="wall" type="RectangleMapObject" x="7426" y="2433" width="248" height="3277.45"/>
-  <object id="41" name="roof16" type="RectangleMapObject" x="5889.05" y="4534.67" width="131" height="64"/>
   <object id="42" name="roof16" type="RectangleMapObject" x="5937.53" y="5195.27" width="131" height="64"/>
  </objectgroup>
 </map>

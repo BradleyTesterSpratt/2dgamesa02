@@ -97,7 +97,7 @@ public class GameScreen extends ScreenAdapter
     }
     public void spawnHealth(Vector2 location)
     {
-        medkit = new FirstAidSprite(MEDKIT_ATLAS_PATH, TINY, location, Animation.PlayMode.LOOP);
+        medkit = new FirstAidSprite(MEDKIT_ATLAS_PATH, TINY, location,  Animation.PlayMode.LOOP);
     }
 
     @Override

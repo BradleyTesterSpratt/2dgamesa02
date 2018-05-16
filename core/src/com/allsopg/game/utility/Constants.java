@@ -49,13 +49,13 @@ public class Constants {
     //noodle body
     public static int NOODLE_WIDTH= 2;
     public static int NOODLE_HEIGHT=2;
-    public static float NOODLE_OFFSET_Y=0.5f;
-    public static float NOODLE_OFFSET_X=0.5f;
+    public static float NOODLE_OFFSET_Y=0f;
+    public static float NOODLE_OFFSET_X=0f;
     //medkit body
     public static int MEDKIT_WIDTH= 5/2;
     public static int MEDKIT_HEIGHT=5/2;
-    public static float MEDKIT_OFFSET_Y=0.1f;
-    public static float MEDKIT_OFFSET_X=0.1f;
+    public static float MEDKIT_OFFSET_Y=0f;
+    public static float MEDKIT_OFFSET_X=0f;
     //graphics
     public static final String PLAYER_ATLAS_PATH = "gfx/nexusPC.atlas";
     public static final String NOODLE_ATLAS_PATH = "gfx/noodles.atlas";
